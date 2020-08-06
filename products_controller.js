@@ -14,8 +14,8 @@ module.exports = {
     getOne: (req, res, next) => {
         const db = req.app.get('db');
         const {id} = req.params
-        
-        db.read_product([name, description, price, image_url])
+
+        db.read_product(id)
         .then( () => res.sendStatus(200) )
         .catch(err => {
             res.status(500).send('error. Hold tight our team has been informed')
@@ -26,7 +26,7 @@ module.exports = {
     getAll: (req, res, next) => {
         const db = req.app.get('db');
 
-        db.read_products([name, description, price, image_url])
+        db.read_products()
         .then( () => res.sendStatus(200) )
         .catch(err => {
             res.status(500).send('error. Hold tight our team has been informed')
@@ -36,8 +36,9 @@ module.exports = {
 
     update: (req, res, next) => {
         const  db = req.app.get('db');
+        const {params, query} = req
 
-        db.update_product()
+        db.update_product([params.id,query.desc])
         .then(() => sendStatus(200) )
         .cath(err => {
             res.status(500).send('error. Hold tight our team has been informed')
@@ -47,8 +48,9 @@ module.exports = {
 
     delete: (req, res, next) => {
         const db = req.app.get('db')
+        const {id} = req.params
 
-        db.delete_product()
+        db.delete_product(id)
         .then(() => sendStatus(200) )
         .catch(err => {
             res.status(500).send('error. Hold tight our team has been informed')
